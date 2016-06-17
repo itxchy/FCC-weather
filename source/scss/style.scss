@@ -1,0 +1,85 @@
+//******* GLOBAL *******//
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  background: url(http://matttrifilo.com/images/projects/clouds.jpg) no-repeat center center fixed;
+  background-size: cover;
+  text-shadow: 2px 2px 5px #333;
+  color: #111;
+}
+
+
+//******* FONTS *******//
+
+@font-face {
+  font-family: 'weather-icons';
+  src: url('https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/font/weathericons-regular-webfont.eot?#iefix') format('embedded-opentype'),
+       url('https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/font/weathericons-regular-webfont.woff2') format('woff2'),
+       url('https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/font/weathericons-regular-webfont.woff') format('woff'),
+       url('https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/font/weathericons-regular-webfont.ttf') format('truetype');
+  
+}
+
+//******* Weather Styles *******//
+.zipcode-form {
+	width: 26rem;
+	margin: 0 auto;
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.weather-container {
+  max-width: 30rem;
+}
+
+.city {
+  font-size: 4em;
+}
+
+
+
+.temp-box h1, 
+.wx-brief, 
+.hi-low,
+.wx-description {
+  text-align: center;
+}
+
+// .temp-box {
+//   width: 20rem;
+//   margin: 0 auto;
+// }
+
+.temperature {
+    font-size: 6em;
+}
+
+.wx-icon {
+  font-family: 'weather-icons';
+  font-size: 5rem;
+}
+
+.hi-low {
+  font-size: 1.5em;
+}
+
+.hi-low-col {
+  position: relative;
+  margin-right: 4rem;
+}
+
+// dashes can't be used with ng-class
+.hideuntildata {
+  display: none;
+}
