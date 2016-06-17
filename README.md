@@ -17,18 +17,18 @@ Clone this repo.
 
 ## Gulp commands
 
-`gulp` 
+`gulp`  
 Compiles the public build. 
 This project uses `SCSS`, and the `js` will be compiled by Babel. 
 
-`gulp serve`
+`gulp serve`  
 Compiles the public build *and* runs the Express server proxying through Browsersync.
 JavaScript edits will automatically restart the server, and style edits will be injected instantly. No refreshing necessary 
 
-`gulp test`
+`gulp test`  
 Runs the test suite once.
 
-`gulp tdd`
+`gulp tdd`  
 Runs the test suite in watch mode. All JavaScript edits will re-run the test suite. 
 
 ## API Key
