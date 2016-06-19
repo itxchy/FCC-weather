@@ -1,0 +1,79 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Test</title>
+    <meta name="description" content="Test">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+  </head>
+  <body>
+
+    <div ng-app="weatherApp" class="container-fluid">
+    <!-- Background photo by Mohammed J https://www.flickr.com/photos/mohammedj/ -->
+    
+  <!-- TODO: Zipcode form -->
+      <form ng-controller="zipcode" class="form-inline zipcode-form" ng-submit="zipcodeClickHandler()">
+        <div class="form-group">
+          <input type="number" class="form-control" id="zipcode" placeholder="Zipcode" ng-model="zipcode">
+        </div>
+        <button type="submit" class="btn btn-default">Get your current conditions</button>
+      </form>
+    
+      <div class="container-fluid weather-container" ng-controller="weatherCtrl">
+
+      <section>
+        <h1 class="text-center" ng-class="{'hideuntildata': !hideDataFromView}">Enter your zipcode</h1>
+      </section>
+
+  <!-- Location Name -->
+        <h1 class="text-center city"  ng-class="{'hideuntildata': hideDataFromView}" ng-cloak>{{location}}</h1>
+      
+  <!-- TODO: Fahrenheit/Celsius Toggler-->
+      
+  <!-- Temperatures -->
+        <div class="row" ng-class="{'hideuntildata': hideDataFromView}">
+
+          <div class="col-xs-6 temp-box" ng-cloak>
+            <h1 class="temperature" >{{weather.main.temp | number: 0}}&deg;</h1>
+            <div class="col-xs-6 hi-low">
+              <p>hi: {{weather.main.temp_max | number: 0}}&deg;</p>
+            </div>
+            <div class="col-xs-6 hi-low">
+              <p>low: {{weather.main.temp_min | number: 0}}&deg;</p>
+            </div>
+          </div>
+          
+    <!-- Current Conditions -->
+          <div class="col-xs-6 wx-brief" ng-cloak>
+            <h1 class="wx-icon"><i class={{icon}}></i></h1>
+            <h3>{{weather.weather[0].main}}</h3>
+          </div>
+
+        </div>
+      
+  <!-- Current Conditions Description -->       
+        <div class="row">
+          <div class="col-xs-12 wx-description" ng-class="{hideuntildata: hideDataFromView}">
+            <h3 ng-cloak>{{weather.weather[0].description}}</h3>
+          </div>  
+        </div>
+      
+  <!-- TODO: 7-Day forecast table -->
+
+      </div>
+    
+    </div>
+
+    <script 
+      src="http://code.jquery.com/jquery-2.2.3.min.js"   
+      integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   
+      crossorigin="anonymous">
+    </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular.js"></script>
+    <script src="assets/js/bundle.js"></script>
+  </body>
+</html>
