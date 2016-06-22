@@ -22,8 +22,8 @@ var source = {
 
 var dest = {
     root: 'public',
-    js: 'public/assets/js',
-    css: 'public/assets/css',
+    js: 'public/js',
+    css: 'public/css',
     img: 'public/img'
 };
 
