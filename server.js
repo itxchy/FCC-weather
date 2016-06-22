@@ -98,5 +98,5 @@ app.get('/api/forecast/zipcode', (req, res) => {
 });
 
 app.listen(4001, () => {
-    console.log('Express app listening on port 4000!');
+    console.log('Express app listening on port 4001!');
 });
