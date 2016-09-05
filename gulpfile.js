@@ -92,7 +92,7 @@ gulp.task('img', function () {
 gulp.task('serve', ['build-dev', 'nodemon'], function () {
 
     browserSync.init(null, {
-        proxy: "http://localhost:4000"
+        proxy: "http://localhost:4001"
     });
 
     gulp.watch(source.scss, ['sass']);

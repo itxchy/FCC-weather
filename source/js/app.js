@@ -1,7 +1,5 @@
 'use strict';
 
-
-/****** Angularjs ******/
 var weatherApp = angular.module('weatherApp', []);
 
 weatherApp.factory('location', function($q, $http) {
@@ -206,6 +204,7 @@ weatherApp.controller('zipcode', ['$scope', '$rootScope', 'location', function($
 weatherApp.controller('weatherCtrl', function ($scope, weatherFactory, location, $q) {
 
     $scope.hideDataFromView = true;
+    $scope.zipcodeErrorMessage = false;
 
     function getGeoWeatherAndLocation() {
 
@@ -267,13 +266,20 @@ weatherApp.controller('weatherCtrl', function ($scope, weatherFactory, location,
             weatherFactory.getWeatherFromZipcode(zipcode)
             .then(function (data) {
 
+                console.log('data', data);
+
+                if (data.data.cod === '404') {
+                    $scope.hideDataFromView = true;
+                    $scope.zipcodeErrorMessage = true;
+                    $scope.zipcode = zipcode;
+                    var zipcodeError = 'ERROR: Open Weather\'s server returned a 404 status for this zipcode -> ' + zipcode;
+                    console.log(zipcodeError);
+                    return reject(zipcodeError);
+                }
+
                 $scope.weather = data.data;
                 var weatherId = $scope.weather.weather[0].id;
                 $scope.icon = weatherFactory.initializeWeatherIcons(weatherId);
-
-                if (!data) {
-                    reject(error);
-                }
 
                 location.getZipcodeLocationName(zipcode)
                 .then(function(data) {
@@ -285,7 +291,7 @@ weatherApp.controller('weatherCtrl', function ($scope, weatherFactory, location,
                     .then(function(data) {
                         console.log('zipcode forecast data: ', data.data);
                         $scope.forecast = data.data;
-                        resolve(data);
+                        return resolve(data);
 
                     });
                 });
@@ -298,10 +304,6 @@ weatherApp.controller('weatherCtrl', function ($scope, weatherFactory, location,
         getZipcodeWeatherAndLocation(zipcode)
         .then(function() {
             $scope.hideDataFromView = false;
-        }, 
-        function(error) {
-        //error, show zipcode instead
-        //console.log("an error occured in getZipcodeWeatherAndLocation, ", error);
         });
     });
 });

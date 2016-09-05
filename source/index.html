@@ -15,7 +15,7 @@
     <div ng-app="weatherApp" class="container-fluid">
     <!-- Background photo by Mohammed J https://www.flickr.com/photos/mohammedj/ -->
     
-  <!-- TODO: Zipcode form -->
+  <!-- Zipcode form -->
       <form ng-controller="zipcode" class="form-inline zipcode-form" ng-submit="zipcodeClickHandler()">
         <div class="form-group">
           <input type="number" class="form-control" id="zipcode" placeholder="Zipcode" ng-model="zipcode">
@@ -27,7 +27,11 @@
 
       <section>
         <h1 class="text-center" ng-class="{'hideuntildata': !hideDataFromView}">Enter your zipcode</h1>
+        <h3 class="downtime-notice">9/5/16 &mdash; Open weather's API servers are currently reporting errors for valid zipcodes. Their engineers are working on the issue. <a href="https://openweathermap.desk.com/customer/portal/questions/16672263-4-4-for-a-lot-of-zip-codes-when-current-weather-data-api">Follow the discussion here.</a></h3>
       </section>
+      <h2 ng-class="{'hideuntildata': !zipcodeErrorMessage}" ng-cloak>ERROR: The Open Weather API server couldn't find the requested zipcode: {{ zipcode }}</h2>
+
+
 
   <!-- Location Name -->
         <h1 class="text-center city"  ng-class="{'hideuntildata': hideDataFromView}" ng-cloak>{{location}}</h1>
