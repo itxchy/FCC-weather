@@ -1,89 +1,84 @@
 <!doctype html>
 <html class="no-js" lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>FCC Weather</title>
-    <meta name="description" content="Current weather for wherever you find yourself. A Free Code Camp front end development project by Matt Trifilo.">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.min.css">
-    <link rel="stylesheet" href="css/style.css">
-  </head>
-  <body>
-
-    <div ng-app="weatherApp" class="container-fluid">
-    <!-- Background photo by Mohammed J https://www.flickr.com/photos/mohammedj/ -->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>FCC Weather</title>
+        <meta name="description" content="Current weather for wherever you find yourself. A Free Code Camp front end development project by Matt Trifilo.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.min.css">
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+        <!-- Background photo by Mohammed J https://www.flickr.com/photos/mohammedj/ -->
+        <div ng-app="weatherApp" class="container-fluid">
     
-  <!-- Zipcode form -->
-      <form ng-controller="zipcode" class="form-inline zipcode-form" ng-submit="zipcodeClickHandler()">
-        <div class="form-group">
-          <input type="number" class="form-control" id="zipcode" placeholder="Zipcode" ng-model="zipcode">
-        </div>
-        <button type="submit" class="btn btn-default">Get your current conditions</button>
-      </form>
-    
-      <div class="container-fluid weather-container" ng-controller="weatherCtrl">
+            <!-- Zipcode form -->
+            <form ng-controller="zipcode" class="form-inline zipcode-form" ng-submit="zipcodeClickHandler()">
+                <div class="form-group">
+                    <input type="number" class="form-control" id="zipcode" placeholder="Zipcode" ng-model="zipcode">
+                </div>
+                <button type="submit" class="btn btn-default">
+                    Get your current conditions
+                </button>
+            </form>
 
-      <section>
-        <h1 class="text-center" ng-class="{'hideuntildata': !hideDataFromView}">Enter your zipcode</h1>
-        <!-- <h3 class="downtime-notice">9/5/16 &mdash; Open weather's API servers are currently reporting errors for valid zipcodes. Their engineers are working on the issue. <a href="https://openweathermap.desk.com/customer/portal/questions/16672263-4-4-for-a-lot-of-zip-codes-when-current-weather-data-api">Follow the discussion here.</a></h3> -->
+            <div class="container-fluid weather-container" ng-controller="weatherCtrl">
 
-        <div class="alert alert-warning alert-block downtime-notice">
-          <h4>9/5/16 &mdash; Open Weather Downtime</h4>
-            Open Weather's API servers are currently reporting errors for valid zipcode requests. Their engineers are working on the issue. <a href="https://openweathermap.desk.com/customer/portal/questions/16672263-4-4-for-a-lot-of-zip-codes-when-current-weather-data-api">Follow the discussion here.</a>
-        </div>
-      </section>
-<!--       <h2 ng-class="{'hideuntildata': !zipcodeErrorMessage}" ng-cloak>ERROR: The Open Weather API server couldn't find the requested zipcode: {{ zipcode }}</h2> -->
+                <section>
+                    <h1 class="text-center" ng-class="{'hideuntildata': !hideDataFromView}">
+                        Enter your zipcode
+                    </h1>
+                    <div class="alert alert-warning alert-block downtime-notice">
+                        <h4>9/5/16 &mdash; Open Weather Downtime</h4>
+                        Open Weather's API servers are currently reporting errors for valid zipcode requests. Their engineers are working on the issue. <a href="https://openweathermap.desk.com/customer/portal/questions/16672263-4-4-for-a-lot-of-zip-codes-when-current-weather-data-api">Follow the discussion here.</a>
+                    </div>
+                </section>
 
-      <div class="alert alert-danger alert-block downtime-notice" ng-class="{'hideuntildata': !zipcodeErrorMessage}" ng-cloak>
-        <h4>ERROR</h4>
-          The Open Weather API server couldn't find the requested zipcode: {{ zipcode }}
-      </div>
+                <div class="alert alert-danger alert-block downtime-notice" ng-class="{'hideuntildata': !zipcodeErrorMessage}" ng-cloak>
+                    <h4>ERROR</h4>
+                    The Open Weather API server couldn't find the requested zipcode: {{ zipcode }}
+                </div>
 
-
-
-  <!-- Location Name -->
-        <h1 class="text-center city"  ng-class="{'hideuntildata': hideDataFromView}" ng-cloak>{{location}}</h1>
-      
-  <!-- TODO: Fahrenheit/Celsius Toggler-->
-      
-  <!-- Temperatures -->
-        <div class="row" ng-class="{'hideuntildata': hideDataFromView}">
-
-          <div class="col-xs-6 temp-box" ng-cloak>
-            <h1 class="temperature" >{{weather.main.temp | number: 0}}&deg;</h1>
-            <div class="col-xs-6 hi-low">
-              <p>hi: {{weather.main.temp_max | number: 0}}&deg;</p>
-            </div>
-            <div class="col-xs-6 hi-low">
-              <p>low: {{weather.main.temp_min | number: 0}}&deg;</p>
-            </div>
-          </div>
+                <!-- Location Name -->
+                <h1 class="text-center city"  ng-class="{'hideuntildata': hideDataFromView}" ng-cloak>
+                    {{location}}
+                </h1>
           
-    <!-- Current Conditions -->
-          <div class="col-xs-6 wx-brief" ng-cloak>
-            <h1 class="wx-icon"><i class={{icon}}></i></h1>
-            <h3>{{weather.weather[0].main}}</h3>
-          </div>
+                <div class="row" ng-class="{'hideuntildata': hideDataFromView}">
 
+                    <!-- Temperatures -->
+                    <div class="col-xs-6 temp-box" ng-cloak>
+                        <h1 class="temperature" >{{weather.main.temp | number: 0}}&deg;</h1>
+                        <div class="col-xs-6 hi-low">
+                            <p>hi: {{weather.main.temp_max | number: 0}}&deg;</p>
+                        </div>
+                        <div class="col-xs-6 hi-low">
+                            <p>low: {{weather.main.temp_min | number: 0}}&deg;</p>
+                        </div>
+                    </div>
+                  
+                    <!-- Current Conditions -->
+                    <div class="col-xs-6 wx-brief" ng-cloak>
+                        <h1 class="wx-icon"><i class={{icon}}></i></h1>
+                        <h3>{{weather.weather[0].main}}</h3>
+                    </div>
+                </div>
+          
+                <!-- Current Conditions Description -->       
+                <div class="row">
+                    <div class="col-xs-12 wx-description" ng-class="{hideuntildata: hideDataFromView}">
+                        <h3 ng-cloak>{{weather.weather[0].description}}</h3>
+                    </div>  
+                </div>
+            </div>
+
+        <!-- TODO: 7-Day forecast table -->
         </div>
-      
-  <!-- Current Conditions Description -->       
-        <div class="row">
-          <div class="col-xs-12 wx-description" ng-class="{hideuntildata: hideDataFromView}">
-            <h3 ng-cloak>{{weather.weather[0].description}}</h3>
-          </div>  
-        </div>
-      
-  <!-- TODO: 7-Day forecast table -->
 
-      </div>
-    
-    </div>
-
-    <script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular.js"></script>
-    <script src="js/bundle.js"></script>
-  </body>
+        <script   src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular.js"></script>
+        <script src="js/bundle.js"></script>
+    </body>
 </html>
