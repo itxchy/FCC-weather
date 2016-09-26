@@ -34,6 +34,15 @@ weatherApp.factory('location', function($q, $http) {
             });
         },
 
+        getGeoCoordsFromZipcode: function(zipcode) {
+            return location.getZipcodeLocationName(zipcode)
+                .then(function(data) {
+                    var lat = data.data.results[0].geometry.location.lat;
+                    var long = data.data.result[0].geometry.location.lng;
+                    return {lat: lat, long: long}
+                })
+        },
+
         updateZipcode: function(zipcode) {
             this.zipcode = zipcode;
             return this.zipcode;
@@ -98,18 +107,11 @@ weatherApp.factory('weatherFactory', function($http, $q) {
         },
 
         getWeatherFromZipcode: function(zipcode) {
+            var geoFromZip = getGeoCoordsFromZipcode(zipcode);
+            var lat = geoFromZip.lat;
+            var long = geoFromZip.long;
 
-            return $http.get(`${clientOrigin}/api/weather/zipcode?zipcode=${zipcode}`)
-                .then(function(weatherData) {
-
-                    if (angular.isObject(weatherData)) {
-                        return weatherData;
-                    } 
-
-                    else {
-                        return $q.reject(weatherData);
-                    }
-                });
+            return location.getWeatherFromGeocoords(lat, long);
         },
 
         /******* Calls OpenWeatherMap's API, returns 7 day forcast *******/   
@@ -130,17 +132,11 @@ weatherApp.factory('weatherFactory', function($http, $q) {
 
         getForecastFromZipcode: function(zipcode) {
 
-            return $http.get(`${clientOrigin}/api/forecast/zipcode?zipcode=${zipcode}`)
-                .then(function(forecastData) {
+            var geoFromZip = getGeoCoordsFromZipcode(zipcode);
+            var lat = geoFromZip.lat;
+            var long = geoFromZip.long;
 
-                    if (angular.isObject(forecastData)) {
-                        return forecastData;
-                    }
-
-                    else {
-                        return $q.reject(forecastData);
-                    }
-                });
+            return location.getForcastFromGeoCoords(lat, long);
         },
 
         initializeWeatherIcons: function(weatherId) {
