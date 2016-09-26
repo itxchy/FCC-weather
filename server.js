@@ -71,7 +71,7 @@ app.get('/api/weather/geocoords', (req, res) => {
 
 app.get('/api/weather/zipcode', (req, res) => {
     let zipcode = req.param('zipcode');
-    let zipcodeUri = `http://api.openweathermap.org/data/2.5/weather?zip=${zipcode},us&units=imperial&APPID=${openWeatherApiKey}`;
+    let zipcodeUri = `http://api.openweathermap.org/data/2.5/weather?q=${zipcode},us&units=imperial&APPID=${openWeatherApiKey}`;
     let errorMessage = 'ERROR: Open Weather Map API request for current conditions from Zipcode returned status code: ';
 
     externalRequest(zipcodeUri, res, errorMessage);
