@@ -101,7 +101,7 @@ weatherApp.factory('weatherFactory', function($http, $q, location) {
 
             return $http.get(`${clientOrigin}/api/weather/geocoords?lat=${lat}&long=${long}`)
                 .then(function(weatherData) {
-
+                    console.log(lat, long, 'weatherData', weatherData);
                     if (angular.isObject(weatherData)) {
                         return weatherData;
                     } 
@@ -220,6 +220,7 @@ weatherApp.controller('weatherCtrl', function ($scope, weatherFactory, location,
             .then(function (data) {
 
                 $scope.weather = data.data;
+                console.log('$scope.weather', $scope.weather);
                 var weatherId = $scope.weather.weather[0].id;
                 $scope.icon = weatherFactory.initializeWeatherIcons(weatherId);
 

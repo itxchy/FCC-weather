@@ -1,5 +1,8 @@
 # FCC-weather
-A simple weather app, built with Angular 1 and Express 4.
+
+> NOTE: This was one of the first projects I built using Angular 1.3. It's a mess. For a more recent example of how I currently build apps using Angular 1.5 components and Webpack, check out my [pomodoro app](https://github.com/itxchy/FCC-pomodoro).
+
+A simple weather app, built with Angular 1.3 and Express 4.
 
 This was an intermediate front end development project for Free Code Camp.
 
