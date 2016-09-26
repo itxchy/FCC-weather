@@ -35,12 +35,18 @@ weatherApp.factory('location', function($q, $http) {
         },
 
         getGeoCoordsFromZipcode: function(zipcode) {
-            return location.getZipcodeLocationName(zipcode)
+            var self = this;
+
+            return $q(function(resolve, reject) {
+                self.getZipcodeLocationName(zipcode)
                 .then(function(data) {
                     var lat = data.data.results[0].geometry.location.lat;
-                    var long = data.data.result[0].geometry.location.lng;
-                    return {lat: lat, long: long}
-                })
+                    var long = data.data.results[0].geometry.location.lng;
+                    console.log(`getGeoCoordsFromZipcode results: lat = ${lat}, long = ${long}`);
+                    return resolve({lat: lat, long: long});
+                });
+            });
+
         },
 
         updateZipcode: function(zipcode) {
@@ -85,7 +91,7 @@ weatherApp.factory('location', function($q, $http) {
     };
 });
 
-weatherApp.factory('weatherFactory', function($http, $q) {
+weatherApp.factory('weatherFactory', function($http, $q, location) {
     var clientOrigin = window.location.origin;
     var weatherObject = null;
 
@@ -107,11 +113,15 @@ weatherApp.factory('weatherFactory', function($http, $q) {
         },
 
         getWeatherFromZipcode: function(zipcode) {
-            var geoFromZip = getGeoCoordsFromZipcode(zipcode);
-            var lat = geoFromZip.lat;
-            var long = geoFromZip.long;
+            var self = this;
+            return location.getGeoCoordsFromZipcode(zipcode)
+                .then(function (geoFromZip) {
+                    var lat = geoFromZip.lat;
+                    var long = geoFromZip.long; 
 
-            return location.getWeatherFromGeocoords(lat, long);
+                    console.log(`geo coords from zipcode (${zipcode}) to lat: ${lat}, long: ${long}, geoFromZip = ${geoFromZip}`);
+                    return self.getWeatherFromGeoCoords(lat, long);                                     
+                });
         },
 
         /******* Calls OpenWeatherMap's API, returns 7 day forcast *******/   
@@ -132,7 +142,7 @@ weatherApp.factory('weatherFactory', function($http, $q) {
 
         getForecastFromZipcode: function(zipcode) {
 
-            var geoFromZip = getGeoCoordsFromZipcode(zipcode);
+            var geoFromZip = location.getGeoCoordsFromZipcode(zipcode);
             var lat = geoFromZip.lat;
             var long = geoFromZip.long;
 
@@ -247,9 +257,6 @@ weatherApp.controller('weatherCtrl', function ($scope, weatherFactory, location,
         function(error) {
         //error, show zipcode instead
         });
-
-        }, function(error) {
-            return error;
     });
 
     // function for the event listener
@@ -268,7 +275,7 @@ weatherApp.controller('weatherCtrl', function ($scope, weatherFactory, location,
                     $scope.hideDataFromView = true;
                     $scope.zipcodeErrorMessage = true;
                     $scope.zipcode = zipcode;
-                    var zipcodeError = 'ERROR: Open Weather\'s server returned a 404 status for this zipcode -> ' + zipcode;
+                    var zipcodeError = 'ERROR : Open Weather\'s server returned a 404 status for this zipcode -> ' + zipcode;
                     console.log(zipcodeError);
                     return reject(zipcodeError);
                 }
@@ -284,7 +291,7 @@ weatherApp.controller('weatherCtrl', function ($scope, weatherFactory, location,
                     console.log('zipcode location data', data);
                     $scope.location = data.data.results[0].address_components[1].long_name;
                     var lat = data.data.results[0].geometry.location.lat;
-                    var long = data.data.result[0].geometry.location.lng;
+                    var long = data.data.results[0].geometry.location.lng;
 
                     weatherFactory.getForecastFromGeoCoords(lat, long)
                     .then(function(data) {
