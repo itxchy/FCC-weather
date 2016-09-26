@@ -59,7 +59,7 @@ weatherApp.factory('location', function($q, $http) {
 
             return $http.get(`${clientOrigin}/api/location/zipcode?zipcode=${zipcode}`)
                 .then(function(locationData) {
-
+                    console.log('google api zipcode results: ', locationData);
                     if (angular.isObject(locationData)) {
                         return locationData;
                     } 
@@ -287,8 +287,10 @@ weatherApp.controller('weatherCtrl', function ($scope, weatherFactory, location,
 
                     console.log('zipcode location data', data);
                     $scope.location = data.data.results[0].address_components[1].long_name;
+                    var lat = data.data.results[0].geometry.location.lat;
+                    var long = data.data.result[0].geometry.location.lng;
 
-                    weatherFactory.getForecastFromZipcode(zipcode)
+                    weatherFactory.getForecastFromGeoCoords(lat, long)
                     .then(function(data) {
                         console.log('zipcode forecast data: ', data.data);
                         $scope.forecast = data.data;
