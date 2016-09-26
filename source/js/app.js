@@ -277,6 +277,7 @@ weatherApp.controller('weatherCtrl', function ($scope, weatherFactory, location,
                     return reject(zipcodeError);
                 }
 
+                $scope.zipcodeErrorMessage = false;
                 $scope.weather = data.data;
                 var weatherId = $scope.weather.weather[0].id;
                 $scope.icon = weatherFactory.initializeWeatherIcons(weatherId);
